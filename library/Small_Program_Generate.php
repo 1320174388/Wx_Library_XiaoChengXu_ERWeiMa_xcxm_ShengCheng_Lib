@@ -70,8 +70,8 @@ class Small_Program_Generate
         if(!empty($wxArr['errcode'])) {
             return self::returnArray('error',$wxArr);
         }
-        if(!is_dir('$dir')){
-            mkdir($dir);
+        if(!is_dir($dir)){
+            mkdir($dir,'777','-r');
         };
         $dir = rtrim($dir,'/');
         file_put_contents($dir.'/'.$token.'.png',$wxData);

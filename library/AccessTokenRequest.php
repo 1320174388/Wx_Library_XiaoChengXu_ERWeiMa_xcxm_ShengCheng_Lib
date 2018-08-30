@@ -59,16 +59,18 @@ class AccessTokenRequest
         if(!$wxAppSecret) return self::returnArray(
             'error', '请发送小程序AppSecret秘钥'
         );
-        // 获取文件内access_token令牌信
-        $access_token_Str = file_get_contents(
-            $tokenDir.'access_token.text'
-        );
-        // 解析数据
-        $access_token_Arr = json_decode($access_token_Str,true);
-        // 判断令牌失效期
-        if( (time() - $access_token_Arr['time']) < 3600 )
-        {
-            return self::returnArray('success', $access_token_Arr);
+        if(file_exists($tokenDir.'access_token.text')){
+            // 获取文件内access_token令牌信
+            $access_token_Str = file_get_contents(
+                $tokenDir.'access_token.text'
+            );
+            // 解析数据
+            $access_token_Arr = json_decode($access_token_Str,true);
+            // 判断令牌失效期
+            if( (time() - $access_token_Arr['time']) < 3600 )
+            {
+                return self::returnArray('success', $access_token_Arr);
+            }
         }
         // 获取请求授权令牌类地址
         $url = self::$AccessTokenConfig['AccessTokenUrl'];
